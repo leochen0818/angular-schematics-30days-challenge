@@ -4,7 +4,8 @@
   "description": "A blank schematics",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && jasmine src/**/*_spec.js"
+    "test": "npm run build && jasmine src/**/*_spec.js",
+    "g": "npx -p dtsgenerator dtsgen src/hello-world/schema.json -o src/hello-world/schema.d.ts"
   },
   "keywords": [
     "schematics"
@@ -15,6 +16,7 @@
   "dependencies": {
     "@angular-devkit/core": "^8.1.2",
     "@angular-devkit/schematics": "^8.1.2",
+    "@schematics/angular": "^8.3.2",
     "@types/jasmine": "^3.3.9",
     "@types/node": "^8.0.31",
     "jasmine": "^3.3.1",

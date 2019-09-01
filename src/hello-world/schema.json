@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "HelloSchematics",
+  "id": "HelloWorldSchema",
   "title": "Hello Schema",
   "type": "object",
   "description": "Generate a file of JavaScript",
@@ -13,12 +13,13 @@
         "index": 0
       },
       "x-prompt": "What name would you like?"
+    },
+    "project": {
+      "type": "string",
+      "description": "Generate in specific Angular CLI workspace project"
     }
   },
   "required": [
     "name"
-  ],
-  "//": {
-    "x-prompt": "What name would you like to use for the component?"
-  }
+  ]
 }
