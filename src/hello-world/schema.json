@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "HelloSchematics",
+  "title": "Hello Schema",
+  "type": "object",
+  "description": "Generate a file of JavaScript",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the person",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like?"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "//": {
+    "x-prompt": "What name would you like to use for the component?"
+  }
+}
