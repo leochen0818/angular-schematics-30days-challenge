@@ -1,22 +1,61 @@
-import { Tree } from '@angular-devkit/schematics';
-import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
-import { strings } from '@angular-devkit/core';
+import { SchematicTestRunner, UnitTestTree } from '@angular-devkit/schematics/testing';
+import { Schema as ApplicationOptions, Style } from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
+
 import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('hello-world', () => {
-  it('成功產出檔案，則檔名為/hello-leo-chen.component.ts', () => {
-    const name = 'LeoChen';
-    const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = runner.runSchematic('hello-world', { name: name }, Tree.empty())
+  const runner = new SchematicTestRunner('schematics', collectionPath);
+  const workspaceOptions: WorkspaceOptions = {
+    name: 'workspace',
+    newProjectRoot: 'projects',
+    version: '6.0.0',
+  };
+  const appOptions: ApplicationOptions = {
+    name: 'hello',
+    inlineStyle: false,
+    inlineTemplate: false,
+    routing: false,
+    style: Style.Css,
+    skipTests: false,
+    skipPackageJson: false,
+  };
+  const defalutOptions: HelloWorldSchema = { 
+    name: 'feature/Leo Chen' 
+  };
 
-    const dasherizeName = strings.dasherize(name);
-    const fullFileName = `/hello-${dasherizeName}.component.ts`;
-    expect(tree.files).toContain(fullFileName);
-    
-    const fileContent = tree.readContent(fullFileName);
-    expect(fileContent).toMatch(/hello-leo-chen/);
-    expect(fileContent).toMatch(/HelloLeoChenComponent/);
+  let appTree: UnitTestTree;
+
+  beforeEach(async () => {
+    appTree = await runner.runExternalSchematicAsync(
+      '@schematics/angular',
+      'workspace',
+      workspaceOptions
+    ).toPromise();
+    appTree = await runner.runExternalSchematicAsync(
+      '@schematics/angular',
+      'application',
+      appOptions,
+      appTree
+    ).toPromise();
+  });
+
+  it('成功在預設專案路徑底下產出檔案', async () => {
+    const options: HelloWorldSchema = { ...defalutOptions };
+    const tree = await runner.runSchematicAsync('hello-world', options, appTree).toPromise();
+    expect(tree.files).toContain('/projects/hello/src/app/feature/hello-leo-chen.component.ts');
+  });
+  it('成功在 "world" 專案路徑底下產出檔案', async () => {
+    appTree = await runner.runExternalSchematicAsync(
+      '@schematics/angular',
+      'application',
+      { ...appOptions, name: 'world' },
+      appTree
+    ).toPromise();
+    const options: HelloWorldSchema = { ...defalutOptions, project: 'world' };
+    const tree = await runner.runSchematicAsync('hello-world', options, appTree).toPromise();
+    expect(tree.files).toContain('/projects/world/src/app/feature/hello-leo-chen.component.ts');
   });
 });
