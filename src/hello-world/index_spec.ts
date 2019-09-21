@@ -42,12 +42,16 @@ describe('hello-world', () => {
     ).toPromise();
   });
 
-  it('成功在預設專案路徑底下產出檔案', async () => {
+  it('成功在預設專案路徑底下產出 Component，並將其加到 AppModule 的 declarations 裡', async () => {
     const options: HelloWorldSchema = { ...defalutOptions };
     const tree = await runner.runSchematicAsync('hello-world', options, appTree).toPromise();
     expect(tree.files).toContain('/projects/hello/src/app/feature/hello-leo-chen.component.ts');
+    
+    const moduleContent = tree.readContent('/projects/hello/src/app/app.module.ts');
+    expect(moduleContent).toMatch(/import.*HelloLeoChen.*from '.\/feature\/hello-leo-chen.component'/);
+    expect(moduleContent).toMatch(/declarations:\s*\[[^\]]+?,\r?\n\s+HelloLeoChenComponent\r?\n/m);
   });
-  it('成功在 "world" 專案路徑底下產出檔案', async () => {
+  it('成功在 "world" 專案路徑底下產出 Component，並將其加到 AppModule 的 declarations 裡', async () => {
     appTree = await runner.runExternalSchematicAsync(
       '@schematics/angular',
       'application',
@@ -57,5 +61,9 @@ describe('hello-world', () => {
     const options: HelloWorldSchema = { ...defalutOptions, project: 'world' };
     const tree = await runner.runSchematicAsync('hello-world', options, appTree).toPromise();
     expect(tree.files).toContain('/projects/world/src/app/feature/hello-leo-chen.component.ts');
+
+    const moduleContent = tree.readContent('/projects/world/src/app/app.module.ts');
+    expect(moduleContent).toMatch(/import.*HelloLeoChen.*from '.\/feature\/hello-leo-chen.component'/);
+    expect(moduleContent).toMatch(/declarations:\s*\[[^\]]+?,\r?\n\s+HelloLeoChenComponent\r?\n/m);
   });
 });
