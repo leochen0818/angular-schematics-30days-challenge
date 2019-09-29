@@ -5,7 +5,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && jasmine src/**/*_spec.js",
-    "g": "npx -p dtsgenerator dtsgen src/hello-world/schema.json -o src/hello-world/schema.d.ts"
+    "g": "npx -p dtsgenerator dtsgen src/hello-world/schema.json -o src/hello-world/schema.d.ts",
+    "g:ngAdd": "npx -p dtsgenerator dtsgen src/ng-add/schema.json -o src/ng-add/schema.d.ts"
   },
   "keywords": [
     "schematics"

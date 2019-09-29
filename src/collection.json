@@ -5,6 +5,11 @@
       "description": "A blank schematic.",
       "factory": "./hello-world/index#helloWorld",
       "schema": "./hello-world/schema.json"
+    },
+    "ng-add": {
+      "description": "Add wallabyJs Config files to your Angular project.",
+      "factory": "./ng-add",
+      "schema": "./ng-add/schema.json"
     }
   }
 }
