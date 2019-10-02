@@ -1,7 +1,7 @@
 {
-  "name": "hello-world",
-  "version": "0.0.0",
-  "description": "A blank schematics",
+  "name": "schematics30",
+  "version": "0.2.0",
+  "description": "This project is for Schematics 30days challenge of iT-Help",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && jasmine src/**/*_spec.js",
@@ -9,11 +9,25 @@
     "g:ngAdd": "npx -p dtsgenerator dtsgen src/ng-add/schema.json -o src/ng-add/schema.d.ts"
   },
   "keywords": [
-    "schematics"
+    "angular",
+    "schematics",
+    "it-help",
+    "30days"
   ],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leochen0818/angular-schematics-30days-challenge"
+  },
+  "author": "Leo Chen",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leochen0818/angular-schematics-30days-challenge/issues"
+  },
+  "homepage": "https://github.com/leochen0818/angular-schematics-30days-challenge",
   "schematics": "./src/collection.json",
+  "ng-update": {
+    "migrations": "./src/migration.json"
+  },
   "dependencies": {
     "@angular-devkit/core": "^8.1.2",
     "@angular-devkit/schematics": "^8.1.2",
